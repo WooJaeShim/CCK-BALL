@@ -25,7 +25,6 @@
         compatible = "zmk,kscan-gpio-matrix";
         label = "KSCAN";
         diode-direction = "col2row";
-        /* 순정 5행(Row) 설정을 그대로 복구하여 열 꼬임을 해결합니다 */
         row-gpios
             = <&gpio0 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
             , <&gpio1  0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
@@ -35,10 +34,9 @@
             ;
     };
 
-    /* 엔코더 정의를 kscan 밖에서 별도로 선언 */
+    /* 핀 충돌을 피하기 위해 센서 정의를 최소화 */
     left_encoder: encoder_left {
         compatible = "alps,ec11";
-        /* 순정 배선 24, 22번 사용 */
         a-gpios = <&gpio0 24 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
         b-gpios = <&gpio0 22 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
         steps = <80>;
