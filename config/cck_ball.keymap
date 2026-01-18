@@ -3,10 +3,13 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/pointing.h>
 
-/* 포인팅 장치 기본 설정 */
+/* 중복 정의 방지 처리 */
+#ifndef ZMK_POINTING_DEFAULT_MOVE_VAL
 #define ZMK_POINTING_DEFAULT_MOVE_VAL 1000
+#endif
+#ifndef ZMK_POINTING_DEFAULT_SCRL_VAL
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 12
-
+#endif
 /* * 최신 ZMK에서는 프로세서 선언 방식이 엄격합니다.
  * 에러 방지를 위해 기존 zip_xy_scaler 선언을 제거하고 기본값을 사용합니다.
  */
