@@ -1,20 +1,26 @@
+/*
+ * Copyright (c) 2020 The ZMK Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/pointing.h>
+
+/* 포인팅 장치 설정 */
 #define ZMK_POINTING_DEFAULT_MOVE_VAL 1000 
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 12   
 
-#include <input/processors.dtsi>
-#include <zephyr/dt-bindings/input/input-event-codes.h>
-#include <behaviors.dtsi>
-#include <dt-bindings/zmk/bt.h>
-#include <dt-bindings/zmk/keys.h>
-#include <dt-bindings/zmk/pointing.h>
-
+/* 하드웨어 리스너 및 가속도 설정 */
 &mmv_input_listener { input-processors = <&zip_xy_scaler 2 1>; };
 &msc_input_listener { input-processors = <&zip_scroll_scaler 2 1>; };
 
 &msc {
-    acceleration-exponent = <0>;      
-    time-to-max-speed-ms = <300>;       
-    delay-ms = <0>;                   
+    acceleration-exponent = <0>;
+    time-to-max-speed-ms = <300>;
+    delay-ms = <0>;
 };
 
 &mmv {
@@ -26,7 +32,7 @@
 &soft_off { hold-time-ms = <2000>; };
 
 / {
-    // 상하 스크롤 엔코더 (좌측 노브용)
+    /* 엔코더 비헤이비어 정의 */
     scroll_vertical_encoder: scroll_vertical_encoder {
         compatible = "zmk,behavior-sensor-rotate";
         #sensor-binding-cells = <0>;
@@ -34,7 +40,6 @@
         tap-ms = <30>; 
     };
 
-    // 좌우 스크롤 엔코더 (우측 노브용)
     scroll_horizontal_encoder: scroll_horizontal_encoder {
         compatible = "zmk,behavior-sensor-rotate";
         #sensor-binding-cells = <0>;
@@ -42,11 +47,7 @@
         tap-ms = <30>;
     };
     
-    behaviors {
-    };
-    
     macros {
-        // 1. Alt + Ctrl + Del
         alt_ctrl_del: alt_ctrl_del {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
@@ -57,31 +58,27 @@
                 , <&macro_release &kp LALT &kp LCTRL &kp DEL>;
         };
 
-        // 2. 비밀번호 입력 (gg2364zr3#)
         pw_macro: pw_macro {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             wait-ms = <10>; 
             tap-ms = <10>;
-            bindings
-                = <&kp G &kp G &kp N2 &kp N3 &kp N6 &kp N4 &kp Z &kp R &kp N3 &kp POUND>;
+            bindings = <&kp G &kp G &kp N2 &kp N3 &kp N6 &kp N4 &kp Z &kp R &kp N3 &kp POUND>;
         };
 
-        // 3. x-admin 문자열 입력
         x_admin: x_admin {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             wait-ms = <10>;
             tap-ms = <10>;
-            bindings
-                = <&kp X &kp MINUS &kp A &kp D &kp M &kp I &kp N>;
+            bindings = <&kp X &kp MINUS &kp A &kp D &kp M &kp I &kp N>;
         };
     };
 
     keymap {
         compatible = "zmk,keymap";
 
-        QWERTY {
+        default_layer {
             bindings = <
 &kp ESC           &kp N1        &kp N2        &kp N3      &kp N4     &kp N5  &kp N6  &kp N7     &kp N8     &kp N9          &kp N0          &kp BACKSPACE
 &kp TAB           &kp Q         &kp W         &kp E       &kp R      &kp T   &kp Y   &kp U      &kp I      &kp O           &kp P           &kp BSLH
@@ -93,7 +90,7 @@
             sensor-bindings = <&scroll_vertical_encoder>, <&scroll_horizontal_encoder>;
         };
 
-        F_layers {
+        f_layers {
             bindings = <
 &kp F1  &kp F2  &kp F3  &kp F4  &kp F5  &kp F6     &kp F7     &kp F8  &kp F9  &kp F10  &kp EQUAL &kp DEL  
 &kp A    &none   &none   &none   &none   &trans  &none      &none      &none   &trans  &kp F11   &kp F12
@@ -105,7 +102,7 @@
             sensor-bindings = <&scroll_vertical_encoder>, <&scroll_horizontal_encoder>;
         };
 
-        BT_layers {
+        bt_layers {
             bindings = <
 &trans  &bt BT_SEL 0    &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  &trans      &trans  &trans  &trans  &trans  &kp W
 &trans  &trans          &trans        &trans        &trans        &trans        &trans      &trans  &trans  &trans  &trans  &trans
@@ -117,7 +114,7 @@
             sensor-bindings = <&scroll_vertical_encoder>, <&scroll_horizontal_encoder>;
         };
 
-        scroll-layers {
+        scroll_layers {
             bindings = <
 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
@@ -129,7 +126,7 @@
             sensor-bindings = <&scroll_vertical_encoder>, <&scroll_horizontal_encoder>;
         };
 
-        snipe-layers {
+        snipe_layers {
             bindings = <
 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
