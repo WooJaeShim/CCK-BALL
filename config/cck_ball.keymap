@@ -1,5 +1,5 @@
-#define ZMK_POINTING_DEFAULT_MOVE_VAL 1000 // 600
-#define ZMK_POINTING_DEFAULT_SCRL_VAL 12   // 10
+#define ZMK_POINTING_DEFAULT_MOVE_VAL 1000 
+#define ZMK_POINTING_DEFAULT_SCRL_VAL 12   
 
 #include <input/processors.dtsi>
 #include <zephyr/dt-bindings/input/input-event-codes.h>
@@ -9,13 +9,12 @@
 #include <dt-bindings/zmk/pointing.h>
 
 &mmv_input_listener { input-processors = <&zip_xy_scaler 2 1>; };
-
 &msc_input_listener { input-processors = <&zip_scroll_scaler 2 1>; };
 
 &msc {
-    acceleration-exponent = <0>;      // 0
-    time-to-max-speed-ms = <300>;       // 300
-    delay-ms = <0>;                   // 0
+    acceleration-exponent = <0>;      
+    time-to-max-speed-ms = <300>;       
+    delay-ms = <0>;                   
 };
 
 &mmv {
@@ -27,27 +26,27 @@
 &soft_off { hold-time-ms = <2000>; };
 
 / {
-    // 上下滚动编码器行为
+    // 상하 스크롤 엔코더 (좌측 노브용)
     scroll_vertical_encoder: scroll_vertical_encoder {
         compatible = "zmk,behavior-sensor-rotate";
         #sensor-binding-cells = <0>;
         bindings = <&msc SCRL_DOWN>, <&msc SCRL_UP>;
-        tap-ms = <100>;
+        tap-ms = <30>; 
     };
 
-    // 左右滚动编码器行为
+    // 좌우 스크롤 엔코더 (우측 노브용)
     scroll_horizontal_encoder: scroll_horizontal_encoder {
         compatible = "zmk,behavior-sensor-rotate";
         #sensor-binding-cells = <0>;
         bindings = <&msc SCRL_LEFT>, <&msc SCRL_RIGHT>;
-        tap-ms = <100>;
+        tap-ms = <30>;
     };
     
     behaviors {
     };
     
     macros {
-// 1. Alt + Ctrl + Del (즉각 실행)
+        // 1. Alt + Ctrl + Del
         alt_ctrl_del: alt_ctrl_del {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
@@ -62,13 +61,13 @@
         pw_macro: pw_macro {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            wait-ms = <10>; // 입력 누락 방지를 위한 최소 지연
+            wait-ms = <10>; 
             tap-ms = <10>;
             bindings
                 = <&kp G &kp G &kp N2 &kp N3 &kp N6 &kp N4 &kp Z &kp R &kp N3 &kp POUND>;
         };
 
-        // 3. x-admin 문자열 입력 매크로
+        // 3. x-admin 문자열 입력
         x_admin: x_admin {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
@@ -87,12 +86,11 @@
 &kp ESC           &kp N1        &kp N2        &kp N3      &kp N4     &kp N5  &kp N6  &kp N7     &kp N8     &kp N9          &kp N0          &kp BACKSPACE
 &kp TAB           &kp Q         &kp W         &kp E       &kp R      &kp T   &kp Y   &kp U      &kp I      &kp O           &kp P           &kp BSLH
 &kp CAPSLOCK      &kp A         &lt 4 S       &kp D       &lt 3 F    &kp G   &kp H   &kp J      &kp K      &kp L           &kp SEMI        &kp SQT
-&kp LEFT_SHIFT    &kp Z         &kp X         &kp C       &kp V      &kp B   &kp N   &kp M      &kp COMMA  &kp DOT         &kp FSLH    &kp MINUS
+&kp LEFT_SHIFT    &kp Z         &kp X         &kp C       &kp V      &kp B   &kp N   &kp M      &kp COMMA  &kp DOT         &kp FSLH        &kp MINUS
 &kp LEFT_CONTROL  &kp LEFT_WIN  &kp LEFT_ALT  &kp DELETE  &mo 1      &kp SPACE  &kp ENTER   &kp RALT  &kp RCTRL  &kp K_BACK  &kp K_FORWARD  &mo 2
             >;
 
-            sensor-bindings = <&scroll_vertical_encoder>,   // 编码器1：上下滚动
-                             <&scroll_horizontal_encoder>;
+            sensor-bindings = <&scroll_vertical_encoder>, <&scroll_horizontal_encoder>;
         };
 
         F_layers {
@@ -104,8 +102,7 @@
 &trans   &trans  &trans  &trans  &trans  &alt_ctrl_del  &mkp LCLK  &mkp RCLK  &trans  &kp LEFT_ARROW &kp DOWN_ARROW   &kp RIGHT_ARROW
             >;
 
-            sensor-bindings = <&scroll_vertical_encoder>,   // 编码器1：上下滚动
-                             <&scroll_horizontal_encoder>;
+            sensor-bindings = <&scroll_vertical_encoder>, <&scroll_horizontal_encoder>;
         };
 
         BT_layers {
@@ -117,8 +114,7 @@
 &trans  &trans          &trans        &trans        &trans        &trans        &trans      &trans  &trans  &trans  &trans  &trans
             >;
 
-            sensor-bindings = <&scroll_vertical_encoder>,   // 编码器1：上下滚动
-                             <&scroll_horizontal_encoder>;
+            sensor-bindings = <&scroll_vertical_encoder>, <&scroll_horizontal_encoder>;
         };
 
         scroll-layers {
@@ -130,8 +126,7 @@
 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
             >;
 
-            sensor-bindings = <&scroll_vertical_encoder>,   // 编码器1：上下滚动
-                             <&scroll_horizontal_encoder>;
+            sensor-bindings = <&scroll_vertical_encoder>, <&scroll_horizontal_encoder>;
         };
 
         snipe-layers {
@@ -143,8 +138,7 @@
 &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
             >;
 
-            sensor-bindings = <&scroll_vertical_encoder>,   // 编码器1：上下滚动
-                             <&scroll_horizontal_encoder>;  // 编码器2：左右滚动
+            sensor-bindings = <&scroll_vertical_encoder>, <&scroll_horizontal_encoder>;
         };
     };
 };
