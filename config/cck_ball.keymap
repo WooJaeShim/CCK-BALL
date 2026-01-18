@@ -13,7 +13,11 @@
 /* * 최신 ZMK에서는 프로세서 선언 방식이 엄격합니다.
  * 에러 방지를 위해 기존 zip_xy_scaler 선언을 제거하고 기본값을 사용합니다.
  */
-
+/* 센서 노드 보강 */
+&trackball {
+    status = "okay";
+    motion-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+};
 &msc {
     acceleration-exponent = <0>;
     time-to-max-speed-ms = <300>;
